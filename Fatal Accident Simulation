@@ -1,0 +1,109 @@
+import java.util.Random;
+ 
+class City {
+ 
+//For testing purposes to print out arrays
+ public static void printArray(double[] array) {
+   for(int i = 0; i < array.length; i++) {
+     System.out.print(array[i] + " ");
+   }
+ }
+ 
+ // Private data fields
+ private String city = "";
+ private int[] numAccidents;
+ private double[] autoCostPerYear = new double[15];
+ private double[] estimateAccidents = new double[5];//Number of Accidents before random walk
+ private double[] futureAccidentsPerYear = new double[5];
+ private double[] futureCostsPerYear = new double[5];
+ 
+ 
+ // Initializes the fatal accident costs
+ Random avgAccidentCost = new Random();
+ private double fatalAccidentCost;
+ 
+ //Initializes the deviation from the predictive model
+ Random avgDeviation = new Random();
+ private double deviation;
+ 
+ // City class construcor
+ public City(String city) {
+   this.city = city;
+ }
+ 
+ // Approximates the costs from fatal accidents
+ public void autoDamageCalculation(int[] numAccidents){
+   for(int i = 0; i < this.numAccidents.length; i++) {
+     this.fatalAccidentCost=(avgAccidentCost.nextGaussian() * 131447.63 + 1472637.93);
+     this.autoCostPerYear[i] = (((this.numAccidents[i]*.60)* this.fatalAccidentCost) + (this.numAccidents[i]*.40)*2*this.fatalAccidentCost);
+   }
+ }
+ 
+ //Calculates number of future accidents for the next 5 years
+ public void futureAccidentCalculation(double[] estimateAccidents) {
+  
+   for(int i = 0; i < estimateAccidents.length; i++){
+     this.deviation = (avgDeviation.nextGaussian() * 3.813 + 0.2857);
+     this.futureAccidentsPerYear[i] = estimateAccidents[i] + this.deviation;
+   }
+ }
+ 
+ //Calculates costs each year for the next 5 years
+ public void futureCostCalculation(double[] futureAccidentsPerYear){
+   for(int i = 0; i < this.futureAccidentsPerYear.length; i++) {
+     this.fatalAccidentCost=(avgAccidentCost.nextGaussian() * 131447.63 + 1472637.93);
+     this.futureCostsPerYear[i] = (((this.futureAccidentsPerYear[i]*.60)* this.fatalAccidentCost) + (this.futureAccidentsPerYear[i]*.40)*2*this.fatalAccidentCost);
+   }
+ }
+ 
+ 
+ public static void main(String[] args) {
+   //Creates objects for each city
+   City seattle = new City("Seattle");
+   City sanFrancisco = new City("San Francisco");
+    //Creates arrays for each city for number of fatal accidents in rainy/cloudy conditions from 2005 to 2019 (index 0 to 14)
+   seattle.numAccidents = new int[]{};
+   sanFrancisco.numAccidents = new int[]{4,1,2,3,3,6,5,1,4,2,8,12,2,8,10};
+ 
+   //Calculates the estimated auto damage for each year and puts them in an array
+   sanFrancisco.autoDamageCalculation(sanFrancisco.numAccidents);
+   //printArray(sanFrancisco.autoCostPerYear);
+ 
+   //Calculates
+   sanFrancisco.estimateAccidents = new double[]{10.1381,11.2661,12.4739,13.7615,15.1289};
+   seattle.estimateAccidents = new double[]{8.6565,8.8886,9.1207,9.3528,9.5849};
+   //Uses Monte Carlo method to calculate the future costs per year
+   double sum=0;
+   double numRuns=1000000;
+   for(int i = 0; i < sanFrancisco.futureCostsPerYear.length; i++){
+     sum=0;
+     for(int j=0;j<numRuns; j++){
+       sanFrancisco.futureAccidentCalculation(sanFrancisco.estimateAccidents);
+       sanFrancisco.futureCostCalculation(sanFrancisco.futureAccidentsPerYear);
+       sum += sanFrancisco.futureCostsPerYear[i];
+     }
+     sanFrancisco.futureCostsPerYear[i]=sum/numRuns;
+   }
+  
+     //printArray(sanFrancisco.futureAccidentsPerYear);
+     System.out.println();
+     System.out.println();
+  //sanFrancisco.futureAccidentCalculation(sanFrancisco.estimateAccidents);
+ //sanFrancisco.futureCostCalculation(sanFrancisco.futureAccidentsPerYear);
+ //printArray(sanFrancisco.futureCostsPerYear);
+ 
+   sum=0;
+   numRuns=1000000;
+   for(int i = 0; i < seattle.futureCostsPerYear.length; i++){
+     sum=0;
+     for(int j=0;j<numRuns; j++){
+       seattle.futureAccidentCalculation(seattle.estimateAccidents);
+       seattle.futureCostCalculation(seattle.futureAccidentsPerYear);
+       sum += seattle.futureCostsPerYear[i];
+     }
+     seattle.futureCostsPerYear[i]=sum/numRuns;
+   }
+ printArray(seattle.futureCostsPerYear);
+ }
+}
+
