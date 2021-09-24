@@ -1,9 +1,9 @@
 In this project, we modeled the predicted number of accidents as a result of wet roads and lower visibility due to rain. We then combined this
 with a predictive representation of automobile costs in order to synthesize a model showing the estimated costs over time. With this model, are
 able to determine the feasibility of increasing public transportation as a means to decrease the costs of automobile damage and thus decrease auto 
-insurance costs as a whole. We did this by running start-up static cost calculations and determining the average cost of maintenance per year for a 5-year
-period and cross-referencing the two models. Furthermore, we will use our models to determine whether the cost of insurance claims will increase, decrease, or
-remain stagnant in future years.
+insurance costs as a whole. We did this by running start-up static cost calculations and determining the average cost of maintenance per year for 
+a 5-year period and cross-referencing the two models. Furthermore, we will use our models to determine whether the cost of insurance claims will 
+increase, decrease, or remain stagnant in future years.
 
 Click the link below to see the final paper written implementing the data obtained from the algorithms in the code repository
 https://docs.google.com/document/d/1SDFKh5MtLDzJm5JXsxCuZiiCGT1slpt-nA85bixuWpU/edit?usp=sharing
